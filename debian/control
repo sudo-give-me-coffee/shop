@@ -38,7 +38,7 @@ Description: Fast application store
  Helps independent developers.
 
 Package: pop-shop-casper
-Architecture: any
+Architecture: amd64
 Priority: extra
 Depends: casper
 Description: Disable pop-shop in casper

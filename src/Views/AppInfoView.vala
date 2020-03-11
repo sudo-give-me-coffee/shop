@@ -456,7 +456,6 @@ namespace AppCenter.Views {
                 var other_apps_grid = new Gtk.Grid ();
                 other_apps_grid.orientation = Gtk.Orientation.VERTICAL;
                 other_apps_grid.row_spacing = 12;
-                other_apps_grid.width_request = MAX_WIDTH;
                 other_apps_grid.add (other_apps_header);
                 other_apps_grid.add (other_apps_carousel);
 

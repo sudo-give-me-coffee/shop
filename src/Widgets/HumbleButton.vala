@@ -99,7 +99,7 @@ public class AppCenter.Widgets.HumbleButton : Gtk.Grid {
 
     construct {
         amount_button = new Gtk.Button ();
-        amount_button.hexpand = true;
+        amount_button.width_request = 95;
 
 #if PAYMENTS
         amount_button.label = _("Free");
@@ -108,6 +108,7 @@ public class AppCenter.Widgets.HumbleButton : Gtk.Grid {
 #endif
 
         arrow_button = new Gtk.ToggleButton ();
+        //  arrow_button.hexpand = true;
         arrow_button.image = new Gtk.Image.from_icon_name ("pan-down-symbolic", Gtk.IconSize.MENU);
 
         selection = new HumblePopover (arrow_button);

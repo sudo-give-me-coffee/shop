@@ -28,6 +28,7 @@ namespace AppCenter.Views {
             Gtk.StackTransitionType transition_type = Gtk.StackTransitionType.SLIDE_LEFT_RIGHT
         );
 
+        private static Gtk.CssProvider arrow_provider;
         private static Gtk.CssProvider loading_provider;
         private static Gtk.CssProvider? previous_css_provider = null;
 
@@ -35,12 +36,16 @@ namespace AppCenter.Views {
 
         private Gtk.Label app_screenshot_not_found;
         private Gtk.Stack app_screenshots;
+        private Gtk.Label app_version;
         private Widgets.SizeLabel size_label;
         private Gtk.ListBox extension_box;
         private Gtk.Grid release_grid;
         private Widgets.ReleaseListBox release_list_box;
         private Gtk.Revealer origin_combo_revealer;
         private Gtk.Grid screenshot_arrows;
+        private Gtk.Revealer screenshot_arrows_revealer;
+        private Gtk.Button screenshot_previous;
+        private Gtk.Button screenshot_next;
         private Gtk.Stack screenshot_stack;
         private Gtk.StyleContext stack_context;
         private Gtk.Overlay screenshot_overlay;
@@ -56,6 +61,9 @@ namespace AppCenter.Views {
         }
 
         static construct {
+            arrow_provider = new Gtk.CssProvider ();
+            arrow_provider.load_from_resource ("io/elementary/appcenter/arrow.css");
+
             loading_provider = new Gtk.CssProvider ();
             loading_provider.load_from_resource ("io/elementary/appcenter/loading.css");
         }
@@ -171,7 +179,14 @@ namespace AppCenter.Views {
             package_name.selectable = true;
             package_name.xalign = 0;
             package_name.get_style_context ().add_class (Granite.STYLE_CLASS_H1_LABEL);
-            package_name.valign = Gtk.Align.END;
+
+            app_version = new Gtk.Label (null);
+            app_version.margin_top = 12;
+            app_version.xalign = 0;
+            app_version.hexpand = true;
+            app_version.valign = Gtk.Align.CENTER;
+            app_version.get_style_context ().add_class (Gtk.STYLE_CLASS_DIM_LABEL);
+            app_version.get_style_context ().add_class (Granite.STYLE_CLASS_H3_LABEL);
 
             package_author.selectable = true;
             package_author.xalign = 0;
@@ -273,7 +288,7 @@ namespace AppCenter.Views {
 
             origin_liststore = new Gtk.ListStore (2, typeof (AppCenterCore.Package), typeof (string));
             origin_combo = new Gtk.ComboBox.with_model (origin_liststore);
-            origin_combo.halign = Gtk.Align.START;
+            origin_combo.halign = Gtk.Align.FILL;
             origin_combo.valign = Gtk.Align.START;
             origin_combo.changed.connect (() => {
                 Gtk.TreeIter iter;
@@ -286,6 +301,7 @@ namespace AppCenter.Views {
             });
 
             origin_combo_revealer = new Gtk.Revealer ();
+            origin_combo_revealer.halign = Gtk.Align.FILL;
             origin_combo_revealer.add (origin_combo);
 
             var renderer = new Gtk.CellRendererText ();
@@ -300,22 +316,35 @@ namespace AppCenter.Views {
              * progress grid */
             progress_grid.margin_end = 6;
             progress_grid.margin_top = 12;
-            button_grid.margin_top = progress_grid.margin_top;
 
             var header_grid = new Gtk.Grid ();
             header_grid.column_spacing = 12;
             header_grid.row_spacing = 6;
-            header_grid.hexpand = true;
+            header_grid.halign = Gtk.Align.START;
+            header_grid.valign = Gtk.Align.CENTER;
             header_grid.attach (image, 0, 0, 1, 3);
             header_grid.attach (package_name, 1, 0);
-            header_grid.attach (package_author, 1, 1);
-            header_grid.attach (origin_combo_revealer, 1, 2);
-            header_grid.attach (action_stack, 3, 0);
+            header_grid.attach (package_author, 1, 1, 2);
+            //  header_grid.attach (origin_combo_revealer, 1, 2, 2);
+            header_grid.attach (app_version, 2, 0);
+
+            button_grid.attach (origin_combo_revealer, 0, 0, 1, 1);
+
+            action_stack.halign = Gtk.Align.FILL;
+            action_stack.valign = Gtk.Align.CENTER;
+
+            var header_flow = new Gtk.FlowBox ();
+            header_flow.min_children_per_line = 1;
+            header_flow.max_children_per_line = 2;
+            header_flow.hexpand = true;
+            //  header_flow.halign = Gtk.Align.FILL;
+            //  header_flow.valign = Gtk.Align.CENTER;
+            header_flow.margin = content_grid.margin / 2;
+            header_flow.add (header_grid);
+            header_flow.add (action_stack);
 
             if (!package.is_local) {
                 size_label = new Widgets.SizeLabel ();
-                size_label.halign = Gtk.Align.END;
-                size_label.valign = Gtk.Align.START;
                 size_label.get_style_context ().add_class (Gtk.STYLE_CLASS_DIM_LABEL);
 
                 action_button_group.add_widget (size_label);
@@ -326,7 +355,7 @@ namespace AppCenter.Views {
             var header_column = new Hdy.Column ();
             header_column.margin = 24;
             header_column.maximum_width = MAX_WIDTH;
-            header_column.add (header_grid);
+            header_column.add (header_flow);
 
             var header_box = new Gtk.Grid ();
             header_box.get_style_context ().add_class ("banner");
@@ -470,7 +499,6 @@ namespace AppCenter.Views {
                 var share_popover = new SharePopover (body, uri);
 
                 var share_icon = new Gtk.Image.from_icon_name ("send-to-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
-                share_icon.valign = Gtk.Align.CENTER;
 
                 var share_label = new Gtk.Label (_("Share"));
 
@@ -510,6 +538,10 @@ namespace AppCenter.Views {
         }
 
         protected override void update_state (bool first_update = false) {
+            if (!first_update && !package.is_os_updates) {
+                app_version.label = package.get_version ();
+            }
+
             size_label.update ();
             if (package.state == AppCenterCore.Package.State.NOT_INSTALLED) {
                 get_app_download_size.begin ();
@@ -602,7 +634,7 @@ namespace AppCenter.Views {
                 }
 
                 count++;
-                if (count > 1) {
+                if (count > 0) {
                     origin_combo_revealer.reveal_child = true;
                 }
             }
@@ -715,15 +747,16 @@ namespace AppCenter.Views {
 
         // We need to first download the screenshot locally so that it doesn't freeze the interface.
         private void load_screenshot (string path) {
-            var scale_factor = get_scale_factor ();
             try {
-                var pixbuf = new Gdk.Pixbuf.from_file_at_scale (path, MAX_WIDTH * scale_factor, 600 * scale_factor, true);
-                var image = new Gtk.Image ();
-                image.width_request = MAX_WIDTH;
-                image.height_request = 500;
-                image.icon_name = "image-x-generic";
-                image.halign = Gtk.Align.CENTER;
-                image.gicon = pixbuf;
+                //  var pixbuf = new Gdk.Pixbuf.from_file_at_scale (path, 800 * scale_factor, 600 * scale_factor, true);
+                //  var image = new Gtk.Image ();
+                //  image.width_request = 800;
+                //  image.height_request = 500;
+                //  image.icon_name = "image-x-generic";
+                //  image.halign = Gtk.Align.CENTER;
+                //  image.gicon = pixbuf;
+                AppCenter.Widgets.AppScreenshot image = new AppCenter.Widgets.AppScreenshot ();
+                image.set_path (path);
 
                 Idle.add (() => {
                     image.show ();
@@ -756,7 +789,6 @@ namespace AppCenter.Views {
                 tooltip_text = uri;
 
                 var icon = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.SMALL_TOOLBAR);
-                icon.valign = Gtk.Align.CENTER;
 
                 var title = new Gtk.Label (label);
                 title.ellipsize = Pango.EllipsizeMode.END;
@@ -794,7 +826,6 @@ namespace AppCenter.Views {
                 get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
 
                 var icon = new Gtk.Image.from_icon_name ("credit-card-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
-                icon.valign = Gtk.Align.CENTER;
 
                 var title = new Gtk.Label (_("Fund"));
 

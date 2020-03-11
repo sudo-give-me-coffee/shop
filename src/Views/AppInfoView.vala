@@ -747,13 +747,6 @@ namespace AppCenter.Views {
         // We need to first download the screenshot locally so that it doesn't freeze the interface.
         private void load_screenshot (string path) {
             try {
-                //  var pixbuf = new Gdk.Pixbuf.from_file_at_scale (path, 800 * scale_factor, 600 * scale_factor, true);
-                //  var image = new Gtk.Image ();
-                //  image.width_request = 800;
-                //  image.height_request = 500;
-                //  image.icon_name = "image-x-generic";
-                //  image.halign = Gtk.Align.CENTER;
-                //  image.gicon = pixbuf;
                 AppCenter.Widgets.AppScreenshot image = new AppCenter.Widgets.AppScreenshot ();
                 image.set_path (path);
 

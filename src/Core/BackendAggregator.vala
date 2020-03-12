@@ -65,15 +65,15 @@ public class AppCenterCore.BackendAggregator : Backend, Object {
         if (ret != 0) {
             return ret;
         } else {
-            return package_priority(b) - package_priority(a);
+            return package_priority (b) - package_priority (a);
         }
     }
 
-    private static Gee.Collection<Package> package_apps(Gee.Collection<Package> packages) {
+    private static Gee.Collection<Package> package_apps (Gee.Collection<Package> packages) {
         var apps = new Gee.TreeSet<Package> ((a, b) => {
             return a.normalized_component_id.collate (b.normalized_component_id);
         });
-        apps.add_all(packages);
+        apps.add_all (packages);
 
         return apps;
     }
@@ -90,9 +90,9 @@ public class AppCenterCore.BackendAggregator : Backend, Object {
                 packages.add_all (installed);
             }
         }
-        packages.sort(package_sort);
+        packages.sort (package_sort);
 
-        return package_apps(packages);
+        return package_apps (packages);
     }
 
     public Gee.Collection<Package> get_applications_for_category (AppStream.Category category) {
@@ -100,9 +100,9 @@ public class AppCenterCore.BackendAggregator : Backend, Object {
         foreach (var backend in backends) {
             packages.add_all (backend.get_applications_for_category (category));
         }
-        packages.sort(package_sort);
+        packages.sort (package_sort);
 
-        return package_apps(packages);
+        return package_apps (packages);
     }
 
     public Gee.Collection<Package> search_applications (string query, AppStream.Category? category) {
@@ -110,9 +110,9 @@ public class AppCenterCore.BackendAggregator : Backend, Object {
         foreach (var backend in backends) {
             packages.add_all (backend.search_applications (query, category));
         }
-        packages.sort(package_sort);
+        packages.sort (package_sort);
 
-        return package_apps(packages);
+        return package_apps (packages);
     }
 
     public Gee.Collection<Package> search_applications_mime (string query) {
@@ -120,15 +120,15 @@ public class AppCenterCore.BackendAggregator : Backend, Object {
         foreach (var backend in backends) {
             packages.add_all (backend.search_applications_mime (query));
         }
-        packages.sort(package_sort);
+        packages.sort (package_sort);
 
-        return package_apps(packages);
+        return package_apps (packages);
     }
 
     public Package? get_package_for_component_id (string id) {
         Gee.Collection<Package> packages = get_packages_for_component_id (id);
         if (! packages.is_empty) {
-            return packages.to_array()[0];
+            return packages.to_array ()[0];
         } else {
             return null;
         }
@@ -144,7 +144,7 @@ public class AppCenterCore.BackendAggregator : Backend, Object {
         foreach (var backend in backends) {
             packages.add_all (backend.get_packages_for_component_id (package_id));
         }
-        packages.sort(package_sort);
+        packages.sort (package_sort);
 
         return packages;
     }
@@ -157,10 +157,10 @@ public class AppCenterCore.BackendAggregator : Backend, Object {
                 packages.add (package);
             }
         }
-        packages.sort(package_sort);
+        packages.sort (package_sort);
 
         if (! packages.is_empty) {
-            return packages.to_array()[0];
+            return packages.to_array ()[0];
         } else {
             return null;
         }
@@ -174,7 +174,7 @@ public class AppCenterCore.BackendAggregator : Backend, Object {
                 break;
             }
         }
-        packages.sort(package_sort);
+        packages.sort (package_sort);
 
         return packages;
     }

@@ -88,7 +88,6 @@ namespace AppCenter.Views {
 
             if (screenshots.length > 0) {
                 app_screenshots = new Gtk.Stack ();
-                // app_screenshots.width_request = SCREENSHOT_WIDGET_WIDTH;
                 app_screenshots.height_request = 500;
                 app_screenshots.transition_type = Gtk.StackTransitionType.SLIDE_LEFT_RIGHT;
 
@@ -326,7 +325,6 @@ namespace AppCenter.Views {
             header_grid.attach (image, 0, 0, 1, 3);
             header_grid.attach (package_name, 1, 0);
             header_grid.attach (package_author, 1, 1, 2);
-            //  header_grid.attach (origin_combo_revealer, 1, 2, 2);
             header_grid.attach (app_version, 2, 0);
 
             button_grid.attach (origin_combo_revealer, 0, 0, 1, 1);
@@ -338,8 +336,6 @@ namespace AppCenter.Views {
             header_flow.min_children_per_line = 1;
             header_flow.max_children_per_line = 2;
             header_flow.hexpand = true;
-            //  header_flow.halign = Gtk.Align.FILL;
-            //  header_flow.valign = Gtk.Align.CENTER;
             header_flow.margin = content_grid.margin / 2;
             header_flow.add (header_grid);
             header_flow.add (action_stack);

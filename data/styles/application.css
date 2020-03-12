@@ -132,6 +132,15 @@
     color: @banner_fg_color;
 }
 
+.banner flowboxchild:selected {
+    background-color: transparent;
+}
+
+.banner flowboxchild:selected label,
+.banner flowboxchild:selected image {
+    color: @banner_fg_color;
+}
+
 .banner progressbar text {
     padding: 3px;
     background-color: transparent;

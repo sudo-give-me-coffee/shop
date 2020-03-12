@@ -108,7 +108,6 @@ public class AppCenter.Widgets.HumbleButton : Gtk.Grid {
 #endif
 
         arrow_button = new Gtk.ToggleButton ();
-        //  arrow_button.hexpand = true;
         arrow_button.image = new Gtk.Image.from_icon_name ("pan-down-symbolic", Gtk.IconSize.MENU);
 
         selection = new HumblePopover (arrow_button);

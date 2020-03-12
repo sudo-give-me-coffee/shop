@@ -86,7 +86,6 @@ namespace AppCenter.Widgets {
 
         construct {
             label = new Gtk.Label (""); /* Should not be displayed before being updated */
-            //  label.hexpand = true;
             ((Gtk.Misc)label).xalign = 0;
 
             spinner = new Gtk.Spinner ();

@@ -322,12 +322,10 @@ public class AppCenter.MainWindow : Gtk.ApplicationWindow {
         view_mode_revealer.reveal_child = !query_valid;
 
         if (query_valid) {
-            print ("Query valid");
             search_view.search (query, homepage.currently_viewed_category, mimetype);
             stack.visible_child = search_view;
             view_mode_revealer.visible = false;
         } else {
-            print ("Query invalid");
             if (stack.visible_child == search_view && homepage.currently_viewed_category != null) {
                 return_button_history.poll_head ();
                 return_button.label = return_button_history.peek_head ();

@@ -88,6 +88,7 @@ namespace AppCenter.Views {
 
             if (screenshots.length > 0) {
                 app_screenshots = new Gtk.Stack ();
+                // app_screenshots.width_request = SCREENSHOT_WIDGET_WIDTH;
                 app_screenshots.height_request = 500;
                 app_screenshots.transition_type = Gtk.StackTransitionType.SLIDE_LEFT_RIGHT;
 
@@ -498,6 +499,7 @@ namespace AppCenter.Views {
                 var share_popover = new SharePopover (body, uri);
 
                 var share_icon = new Gtk.Image.from_icon_name ("send-to-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                share_icon.valign = Gtk.Align.CENTER;
 
                 var share_label = new Gtk.Label (_("Share"));
 
@@ -781,6 +783,7 @@ namespace AppCenter.Views {
                 tooltip_text = uri;
 
                 var icon = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.SMALL_TOOLBAR);
+                icon.valign = Gtk.Align.CENTER;
 
                 var title = new Gtk.Label (label);
                 title.ellipsize = Pango.EllipsizeMode.END;
@@ -818,6 +821,7 @@ namespace AppCenter.Views {
                 get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
 
                 var icon = new Gtk.Image.from_icon_name ("credit-card-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                icon.valign = Gtk.Align.CENTER;
 
                 var title = new Gtk.Label (_("Fund"));
 

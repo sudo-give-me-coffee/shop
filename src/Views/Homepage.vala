@@ -57,7 +57,6 @@ namespace AppCenter {
 
         construct {
             switcher = new Widgets.Switcher ();
-            //  switcher.halign = Gtk.Align.CENTER;
 
             switcher_revealer = new Gtk.Revealer ();
             switcher_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
@@ -402,10 +401,6 @@ namespace AppCenter {
             bool remember_history = true,
             Gtk.StackTransitionType transition = Gtk.StackTransitionType.SLIDE_LEFT_RIGHT
         ) {
-            //  var stack = get_parent ();
-            //  var grid = stack.get_parent ();
-            //  var window = grid.get_parent ();
-            //  window.custom_title_stack.hide ();
             base.show_package (package, remember_history, transition);
             viewing_package = true;
             if (remember_history) {
@@ -416,10 +411,6 @@ namespace AppCenter {
         }
 
         public override void return_clicked () {
-        //      var stack = get_parent ();
-        //      var grid = stack.get_parent ();
-        //      var window = grid.get_parent ();
-        //      window.custom_title_stack.show ();
             transition_type = Gtk.StackTransitionType.SLIDE_LEFT_RIGHT;
 
             if (previous_package != null) {

@@ -251,12 +251,14 @@ namespace AppCenter {
 
                 var overlay_image = new Gtk.Image.from_gicon (overlay_gicon, badge_icon_size);
                 overlay_image.pixel_size = badge_pixel_size;
+                overlay_image.halign = overlay_image.valign = Gtk.Align.END;
                 image.add_overlay (overlay_image);
             } else {
                 inner_image.gicon = package.get_icon (icon_size, scale_factor);
 
                 if (is_os_updates) {
                     var overlay_image = new Gtk.Image.from_icon_name ("system-software-update", badge_icon_size);
+                    overlay_image.halign = overlay_image.valign = Gtk.Align.END;
                     overlay_image.pixel_size = badge_pixel_size;
 
                     image.add_overlay (overlay_image);

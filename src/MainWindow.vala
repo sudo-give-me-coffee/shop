@@ -330,7 +330,14 @@ public class AppCenter.MainWindow : Gtk.ApplicationWindow {
                 return_button_history.poll_head ();
                 return_button.label = return_button_history.peek_head ();
                 view_mode_revealer.visible = false;
+                homepage_header.visible = true;
             } else {
+                custom_title_stack.visible_child = view_mode_revealer;
+                homepage_header.visible = false;
+                view_mode_revealer.visible = true;
+            }
+
+            if (homepage.currently_viewed_category == null) {
                 view_mode_revealer.visible = true;
             }
 
@@ -361,6 +368,7 @@ public class AppCenter.MainWindow : Gtk.ApplicationWindow {
             homepage_header.label = custom_header;
             custom_title_stack.visible_child = homepage_header;
             view_mode_revealer.visible = false;
+            homepage_header.visible = true;
         } else {
             view_mode_revealer.visible = true;
             custom_title_stack.visible_child = view_mode_revealer;

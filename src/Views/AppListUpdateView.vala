@@ -48,6 +48,7 @@ namespace AppCenter.Views {
         }
 
         construct {
+            hexpand = true;
             list_box.set_header_func ((Gtk.ListBoxUpdateHeaderFunc) row_update_header);
 
             update_mutex = GLib.Mutex ();
@@ -187,7 +188,7 @@ namespace AppCenter.Views {
                     update_all_button.clicked.connect (on_update_all);
                     action_button_group.add_widget (update_all_button);
 
-                    header.add (update_all_button);
+                    header.attach (update_all_button, 1, 0, 1, 2);
                 }
 
                 header.show_all ();

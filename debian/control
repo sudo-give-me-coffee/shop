@@ -33,6 +33,7 @@ Depends: appstream (>= 0.12),
          packagekit,
          repoman,
          libhandy-0.0-0,
+         libflatpak-dev (>= 1.0.7),
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: appstream-data-pop, python3-pyflatpak

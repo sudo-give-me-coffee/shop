@@ -38,6 +38,7 @@ appcenter_files = files(
     'Views/View.vala',
     'Widgets/AbstractAppList.vala',
     'Widgets/AppListRow.vala',
+    'Widgets/AppScreenshot.vala',
     'Widgets/Banner.vala',
     'Widgets/CardNumberEntry.vala',
     'Widgets/CategoryFlowBox.vala',
@@ -82,6 +83,10 @@ endif
 
 if get_option('sharing')
     args += '--define=SHARING'
+endif
+
+if get_option('pop_os')
+    args += '--define=POP_OS'
 endif
 
 executable(

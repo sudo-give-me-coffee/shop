@@ -1,0 +1,5 @@
+[Unit]
+Description=Check for package updates, and notify that updates are available
+
+[Service]
+ExecStart=/usr/lib/@PROJECT_NAME@/update-check.sh
